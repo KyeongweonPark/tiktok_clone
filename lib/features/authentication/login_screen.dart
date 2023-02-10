@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/authentication/login_form_screen.dart';
+import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
+
+void _onEmailLoginTap(BuildContext context) {
+  Navigator.of(context)
+      .push(MaterialPageRoute(builder: (context) => const LoginFormScreen()));
+}
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -16,9 +24,9 @@ class LoginScreen extends StatelessWidget {
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Sizes.size40),
         child: Column(
-          children: const [
+          children: [
             Gaps.v40,
-            Text(
+            const Text(
               "Log in to TikTok",
               style: TextStyle(
                 fontSize: Sizes.size24,
@@ -26,13 +34,31 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             Gaps.v40,
-            Text(
+            const Text(
               "Manage your account, check notifications, comment on videos, and more.",
               style: TextStyle(
                 fontSize: Sizes.size16,
                 color: Colors.black45,
               ),
               textAlign: TextAlign.center,
+            ),
+            Gaps.v20,
+            GestureDetector(
+              onTap: () => _onEmailLoginTap(context),
+              child: const AuthButton(
+                  text: "Use email & password",
+                  icon: FaIcon(
+                    FontAwesomeIcons.user,
+                  )),
+            ),
+            Gaps.v20,
+            GestureDetector(
+              onTap: () => null,
+              child: const AuthButton(
+                  text: "Continue with Apple",
+                  icon: FaIcon(
+                    FontAwesomeIcons.apple,
+                  )),
             ),
           ],
         ),

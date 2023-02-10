@@ -4,7 +4,7 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
 import 'package:tiktok_clone/features/authentication/username_screen.dart';
-import 'package:tiktok_clone/widgets/auth_button.dart';
+import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -34,7 +34,7 @@ class SignUpScreen extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            Gaps.v20,
+            Gaps.v40,
             const Text(
               "Create a profile, follow other accounts, make you own videos, and more.",
               style: TextStyle(
@@ -50,6 +50,15 @@ class SignUpScreen extends StatelessWidget {
                   text: "Use phone or email",
                   icon: FaIcon(
                     FontAwesomeIcons.user,
+                  )),
+            ),
+            Gaps.v20,
+            GestureDetector(
+              onTap: () => null,
+              child: const AuthButton(
+                  text: "Continue with Apple",
+                  icon: FaIcon(
+                    FontAwesomeIcons.apple,
                   )),
             ),
             Expanded(
