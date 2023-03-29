@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 final tabs = [
   "Top",
@@ -20,21 +21,48 @@ class DiscoverScreen extends StatefulWidget {
   State<DiscoverScreen> createState() => _DiscoverScreenState();
 }
 
-class _DiscoverScreenState extends State<DiscoverScreen> {
+class _DiscoverScreenState extends State<DiscoverScreen>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _textEditingController =
       TextEditingController(text: "Initial Text");
+  late TabController _tabController;
   void _onSearchChanged(String value) {
     print("Searching from $value");
   }
 
   void _onSearchSubmitted(String value) {
-    print("Searching from $value");
+    if (value != "") {
+      print("Searching from $value");
+    }
   }
 
   @override
   void dispose() {
     _textEditingController.dispose();
+    _tabController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    _tabController = TabController(length: tabs.length, vsync: this);
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        setState(() {
+          _onStopSearch();
+        });
+      }
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  void _onStopSearch() {
+    FocusScope.of(context).unfocus();
+  }
+
+  void _onVisibilityChanged(VisibilityInfo info) {
+    _onStopSearch();
   }
 
   @override
@@ -51,7 +79,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             onSubmitted: _onSearchSubmitted,
           ),
           bottom: TabBar(
-            // onTap: _onTabBarTap,
+            onTap: (value) => {FocusScope.of(context).unfocus()},
+            controller: _tabController,
             splashFactory: NoSplash.splashFactory,
             padding: const EdgeInsets.symmetric(
               horizontal: Sizes.size16,
@@ -73,9 +102,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           ),
         ),
         body: TabBarView(
+          controller: _tabController,
           children: [
             GridView.builder(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               padding: const EdgeInsets.all(
                 Sizes.size6,
               ),
@@ -151,11 +181,15 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               ),
             ),
             for (var tab in tabs.skip(1))
-              Center(
-                child: Text(
-                  tab,
-                  style: const TextStyle(
-                    fontSize: 28,
+              VisibilityDetector(
+                key: Key(tab),
+                onVisibilityChanged: _onVisibilityChanged,
+                child: Center(
+                  child: Text(
+                    tab,
+                    style: const TextStyle(
+                      fontSize: 28,
+                    ),
                   ),
                 ),
               ),

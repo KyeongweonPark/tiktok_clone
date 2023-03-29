@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
           textSelectionTheme: const TextSelectionThemeData(
             cursorColor: Color(0xFFE9435A),
           ),
+          splashColor: Colors.transparent,
           appBarTheme: const AppBarTheme(
             centerTitle: true,
             elevation: 0,
