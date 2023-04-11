@@ -11,6 +11,11 @@ class ChatDetailScreen extends StatefulWidget {
 }
 
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
+  void _stopWriting() {
+    FocusScope.of(context).unfocus();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,6 +76,119 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             ],
           ),
         ),
+      ),
+      body: Stack(
+        children: [
+          ListView.separated(
+            padding: const EdgeInsets.symmetric(
+              vertical: Sizes.size20,
+              horizontal: Sizes.size14,
+            ),
+            itemBuilder: (context, index) {
+              final isMine = index % 2 == 0;
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment:
+                    isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(Sizes.size14),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: const Radius.circular(
+                          Sizes.size20,
+                        ),
+                        topRight: const Radius.circular(
+                          Sizes.size20,
+                        ),
+                        bottomLeft: isMine
+                            ? const Radius.circular(Sizes.size20)
+                            : const Radius.circular(Sizes.size5),
+                        bottomRight: isMine
+                            ? const Radius.circular(Sizes.size5)
+                            : const Radius.circular(Sizes.size20),
+                      ),
+                      color:
+                          isMine ? Colors.blue : Theme.of(context).primaryColor,
+                    ),
+                    child: const Text(
+                      "This is a message!",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: Sizes.size16,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+            separatorBuilder: (context, index) => Gaps.v14,
+            itemCount: 10,
+          ),
+          Positioned(
+            bottom: 0,
+            width: MediaQuery.of(context).size.width,
+            child: BottomAppBar(
+              color: Colors.grey.shade100,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Sizes.size16,
+                  vertical: Sizes.size10,
+                ),
+                child: Row(
+                  children: [
+                    Gaps.h20,
+                    Expanded(
+                        child: SizedBox(
+                      height: Sizes.size52,
+                      child: TextField(
+                        expands: true,
+                        minLines: null,
+                        maxLines: null,
+                        textInputAction: TextInputAction.send,
+                        cursorColor: Theme.of(context).primaryColor,
+                        decoration: InputDecoration(
+                          hintText: "Send a message",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(Sizes.size12),
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: Sizes.size12,
+                          ),
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.only(
+                              right: Sizes.size5,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                FaIcon(FontAwesomeIcons.faceSmile,
+                                    color: Colors.grey.shade900),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    )),
+                    GestureDetector(
+                      onTap: _stopWriting,
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                          right: Sizes.size14,
+                          left: Sizes.size14,
+                        ),
+                        child: const FaIcon(FontAwesomeIcons.paperPlane),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
