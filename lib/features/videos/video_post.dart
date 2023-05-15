@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
@@ -40,7 +41,9 @@ class _VideoPostState extends State<VideoPost>
   void _initVideoPlayer() async {
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
-    _videoPlayerController.play();
+    if (kIsWeb) {
+      await _videoPlayerController.setVolume(0);
+    }
     setState(() {});
     _videoPlayerController.addListener(_onVideoChange);
   }
@@ -62,6 +65,7 @@ class _VideoPostState extends State<VideoPost>
   @override
   void dispose() {
     _videoPlayerController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -100,6 +104,15 @@ class _VideoPostState extends State<VideoPost>
       backgroundColor: Colors.transparent,
       builder: (context) => const VideoComments(),
     );
+  }
+
+  void _onMuteTap() {
+    if (_videoPlayerController.value.volume == 0) {
+      _videoPlayerController.setVolume(0.1);
+    } else {
+      _videoPlayerController.setVolume(0);
+    }
+    setState(() {});
   }
 
   @override
@@ -171,6 +184,14 @@ class _VideoPostState extends State<VideoPost>
               right: 10,
               child: Column(
                 children: [
+                  GestureDetector(
+                    onTap: _onMuteTap,
+                    child: VideoButton(
+                        icon: _videoPlayerController.value.volume > 0
+                            ? FontAwesomeIcons.volumeHigh
+                            : FontAwesomeIcons.volumeXmark),
+                  ),
+                  Gaps.v24,
                   const CircleAvatar(
                     radius: 25,
                     backgroundColor: Colors.black,
