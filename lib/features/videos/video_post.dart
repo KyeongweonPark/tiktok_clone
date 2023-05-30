@@ -23,8 +23,7 @@ class VideoPost extends StatefulWidget {
 
 class _VideoPostState extends State<VideoPost>
     with SingleTickerProviderStateMixin {
-  final VideoPlayerController _videoPlayerController =
-      VideoPlayerController.asset("assets/videos/video.mp4");
+  late final VideoPlayerController _videoPlayerController;
   final Duration _animationDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController;
   bool _isPaused = false;
@@ -39,6 +38,8 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _initVideoPlayer() async {
+    _videoPlayerController =
+        VideoPlayerController.asset("assets/videos/video.mp4");
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
     if (kIsWeb) {
