@@ -51,10 +51,10 @@ class _InboxScreenState extends State<InboxScreen> {
                 fontSize: Sizes.size16,
               ),
             ),
-            trailing: const FaIcon(
+            trailing: FaIcon(
               FontAwesomeIcons.chevronRight,
               size: Sizes.size14,
-              color: Colors.black,
+              color: Theme.of(context).tabBarTheme.indicatorColor,
             ),
           ),
           Container(
@@ -88,10 +88,10 @@ class _InboxScreenState extends State<InboxScreen> {
                 fontSize: Sizes.size14,
               ),
             ),
-            trailing: const FaIcon(
+            trailing: FaIcon(
               FontAwesomeIcons.chevronRight,
               size: Sizes.size16,
-              color: Colors.black,
+              color: Theme.of(context).tabBarTheme.indicatorColor,
             ),
           ),
         ],

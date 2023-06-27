@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/utils.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen({super.key});
@@ -18,6 +19,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return Scaffold(
       appBar: AppBar(
         title: ListTile(
@@ -61,16 +63,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           subtitle: const Text('Active now'),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               FaIcon(
                 FontAwesomeIcons.flag,
-                color: Colors.black,
+                color: Theme.of(context).iconTheme.color,
                 size: Sizes.size20,
               ),
               Gaps.h32,
               FaIcon(
                 FontAwesomeIcons.ellipsis,
-                color: Colors.black,
+                color: Theme.of(context).iconTheme.color,
                 size: Sizes.size20,
               )
             ],
@@ -128,12 +130,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           Positioned(
             bottom: 0,
             width: MediaQuery.of(context).size.width,
-            child: BottomAppBar(
-              color: Colors.grey.shade100,
+            child: Container(
+              color: isDark ? Colors.black : Colors.grey.shade50,
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: Sizes.size16,
-                  vertical: Sizes.size10,
+                padding: const EdgeInsets.only(
+                  left: Sizes.size16,
+                  right: Sizes.size16,
+                  top: Sizes.size10,
+                  bottom: Sizes.size48,
                 ),
                 child: Row(
                   children: [
@@ -154,7 +158,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
-                          fillColor: Colors.white,
+                          fillColor: isDark
+                              ? Colors.grey.shade800
+                              : Colors.grey.shade200,
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: Sizes.size12,
                           ),
@@ -166,7 +172,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 FaIcon(FontAwesomeIcons.faceSmile,
-                                    color: Colors.grey.shade900),
+                                    color: isDark
+                                        ? Colors.grey.shade500
+                                        : Colors.grey.shade900),
                               ],
                             ),
                           ),
