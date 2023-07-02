@@ -45,6 +45,8 @@ dependencies:
     sdk: flutter
   intl: any
 
+  go_router: 6.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

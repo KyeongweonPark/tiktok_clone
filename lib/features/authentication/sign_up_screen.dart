@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
@@ -9,29 +10,34 @@ import 'package:tiktok_clone/generated/l10n.dart';
 import 'package:tiktok_clone/utils.dart';
 
 class SignUpScreen extends StatelessWidget {
+  static const routeURL = "/";
+  static const routeName = "signUp";
   const SignUpScreen({super.key});
 
   void _onLoginTap(BuildContext context) async {
-    final result = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const LoginScreen()));
-    print(result);
+    context.push(LoginScreen.routeName);
   }
 
   void _onEmailTap(BuildContext context) {
-    Navigator.of(context).push(PageRouteBuilder(
-        transitionDuration: const Duration(seconds: 1),
-        reverseTransitionDuration: const Duration(seconds: 1),
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const UsernameScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          final offsetAnimation =
-              Tween(begin: const Offset(1, 0), end: Offset.zero)
-                  .animate(animation);
-          final opacityAnimation = Tween(begin: 0.5, end: 1).animate(animation);
-          return FadeTransition(
-              opacity: animation,
-              child: SlideTransition(position: offsetAnimation, child: child));
-        }));
+    // Navigator.of(context).push(
+    //   PageRouteBuilder(
+    //     transitionDuration: const Duration(seconds: 1),
+    //     reverseTransitionDuration: const Duration(seconds: 1),
+    //     pageBuilder: (context, animation, secondaryAnimation) =>
+    //         const UsernameScreen(),
+    //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //       final offsetAnimation =
+    //           Tween(begin: const Offset(1, 0), end: Offset.zero)
+    //               .animate(animation);
+    //       final opacityAnimation = Tween(begin: 0.5, end: 1).animate(animation);
+    //       return FadeTransition(
+    //           opacity: animation,
+    //           child: SlideTransition(position: offsetAnimation, child: child));
+    //     },
+    //   ),
+    // );
+    context.pushNamed(UsernameScreen.routeName);
+    // context.push("/users/lynn?show=likes");
   }
 
   @override

@@ -11,6 +11,7 @@ import 'package:tiktok_clone/inbox/inbox_screen.dart';
 import 'package:tiktok_clone/utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
+  static String routeName = "/main";
   const MainNavigationScreen({super.key});
 
   @override
@@ -57,7 +58,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 4,
-            child: const UserProfileScreen(),
+            child: const UserProfileScreen(
+              username: "Nico",
+              tab: "",
+            ),
           ),
         ]),
         bottomNavigationBar: Container(
