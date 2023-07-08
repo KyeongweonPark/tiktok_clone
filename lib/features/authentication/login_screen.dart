@@ -14,6 +14,8 @@ void _onEmailLoginTap(BuildContext context) {
 
 class LoginScreen extends StatelessWidget {
   static String routeURL = "/login";
+  static String routeName = "logIn";
+
   const LoginScreen({super.key});
 
   void _onSignUpTap(BuildContext context) {
