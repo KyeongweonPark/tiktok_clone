@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/common/widgets/video_config/video_config.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
@@ -32,7 +33,7 @@ class _VideoPostState extends State<VideoPost>
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
       if (_videoPlayerController.value.duration ==
-          _videoPlayerController.position) {
+          _videoPlayerController.value.position) {
         widget.onVideoFinished();
       }
     }
@@ -46,8 +47,8 @@ class _VideoPostState extends State<VideoPost>
     if (kIsWeb) {
       await _videoPlayerController.setVolume(0);
     }
-    setState(() {});
     _videoPlayerController.addListener(_onVideoChange);
+    setState(() {});
   }
 
   @override
@@ -106,6 +107,7 @@ class _VideoPostState extends State<VideoPost>
       backgroundColor: Colors.transparent,
       builder: (context) => const VideoComments(),
     );
+    _onTogglePause();
   }
 
   void _onMuteTap() {
@@ -119,6 +121,7 @@ class _VideoPostState extends State<VideoPost>
 
   @override
   Widget build(BuildContext context) {
+    VideoConfigData.of(context).autoMute;
     return VisibilityDetector(
       key: Key("${widget.index}"),
       onVisibilityChanged: _onVisibilityChanged,
@@ -127,7 +130,7 @@ class _VideoPostState extends State<VideoPost>
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
                 ? VideoPlayer(_videoPlayerController)
-                : Container(color: Colors.teal),
+                : Container(color: Colors.black),
           ),
           Positioned.fill(
             child: GestureDetector(
@@ -181,6 +184,18 @@ class _VideoPostState extends State<VideoPost>
               ],
             ),
           ),
+          Positioned(
+              left: 20,
+              top: 40,
+              child: IconButton(
+                onPressed: VideoConfigData.of(context).toggleMuted,
+                icon: FaIcon(
+                  VideoConfigData.of(context).autoMute
+                      ? FontAwesomeIcons.volumeOff
+                      : FontAwesomeIcons.volumeHigh,
+                  color: Colors.white,
+                ),
+              )),
           Positioned(
               bottom: 20,
               right: 10,
