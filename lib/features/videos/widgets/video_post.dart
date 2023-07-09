@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tiktok_clone/common/widgets/video_config/video_config.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
@@ -121,7 +122,6 @@ class _VideoPostState extends State<VideoPost>
 
   @override
   Widget build(BuildContext context) {
-    VideoConfigData.of(context).autoMute;
     return VisibilityDetector(
       key: Key("${widget.index}"),
       onVisibilityChanged: _onVisibilityChanged,
@@ -160,6 +160,20 @@ class _VideoPostState extends State<VideoPost>
             ),
           ),
           Positioned(
+              left: 20,
+              top: 40,
+              child: IconButton(
+                onPressed: () {
+                  context.read<VideoConfig>().toggleIsMuted();
+                },
+                icon: FaIcon(
+                  context.watch<VideoConfig>().isMuted
+                      ? FontAwesomeIcons.volumeOff
+                      : FontAwesomeIcons.volumeHigh,
+                  color: Colors.white,
+                ),
+              )),
+          Positioned(
             left: 10,
             bottom: 20,
             child: Column(
@@ -184,18 +198,6 @@ class _VideoPostState extends State<VideoPost>
               ],
             ),
           ),
-          Positioned(
-              left: 20,
-              top: 40,
-              child: IconButton(
-                onPressed: VideoConfigData.of(context).toggleMuted,
-                icon: FaIcon(
-                  VideoConfigData.of(context).autoMute
-                      ? FontAwesomeIcons.volumeOff
-                      : FontAwesomeIcons.volumeHigh,
-                  color: Colors.white,
-                ),
-              )),
           Positioned(
               bottom: 20,
               right: 10,

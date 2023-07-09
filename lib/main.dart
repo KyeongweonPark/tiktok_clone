@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:tiktok_clone/common/theme_config.dart';
 import 'package:tiktok_clone/common/widgets/video_config/video_config.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
@@ -14,14 +16,31 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _forcedDarkMode = forcedDarkMode.value;
 
   // This widget is the root of your application.
   @override
+  void initState() {
+    forcedDarkMode.addListener(() {
+      setState(() {
+        _forcedDarkMode = forcedDarkMode.value;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     // S.load(const Locale("en"));
-    return VideoConfig(
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (context) => VideoConfig())],
       child: MaterialApp.router(
         routerConfig: router,
         debugShowCheckedModeBanner: false,
@@ -36,7 +55,7 @@ class MyApp extends StatelessWidget {
           Locale("en"),
           Locale("ko"),
         ],
-        themeMode: ThemeMode.system,
+        themeMode: _forcedDarkMode ? ThemeMode.dark : ThemeMode.system,
         theme: ThemeData(
             useMaterial3: true,
             brightness: Brightness.light,
