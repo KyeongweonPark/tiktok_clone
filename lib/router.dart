@@ -4,7 +4,7 @@ import 'package:tiktok_clone/common/widgets/main_navigation/main_navigation_scre
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
-import 'package:tiktok_clone/features/videos/video_recording_screen.dart';
+import 'package:tiktok_clone/features/videos/views/video_recording_screen.dart';
 import 'package:tiktok_clone/inbox/activity_screen.dart';
 import 'package:tiktok_clone/inbox/chat_detail_screen.dart';
 import 'package:tiktok_clone/inbox/chats_screen.dart';
